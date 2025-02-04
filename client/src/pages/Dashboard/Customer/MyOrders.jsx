@@ -12,7 +12,7 @@ const MyOrders = () => {
   const axiosSecure=useAxiosSecure();
 
   const{data:orders=[],isLoading,refetch}=useQuery({
-    queryKey:["orders",user?.emil],
+    queryKey:["orders",user?.email],
     queryFn:async()=>{
       const {data}=await axiosSecure.get(`/customer-orders/${user?.email}`)
     return data;

@@ -1,8 +1,37 @@
 import { Helmet } from 'react-helmet-async'
 
 import PlantDataRow from '../../../components/Dashboard/TableRows/PlantDataRow'
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { AuthContext } from '../../../providers/AuthProvider';
+import toast from 'react-hot-toast';
 
 const MyInventory = () => {
+  const axiosSecure=useAxiosSecure();
+
+  const{user}=useContext(AuthContext)
+
+  const{data:plants=[],isLoading,refetch}=useQuery({
+    queryKey:["plants",],
+    queryFn:async()=>{
+      const {data}=await axiosSecure.get(`plants/seller`)
+    return data;
+    }
+
+
+  });
+
+
+  const handleDelete=async(id)=>{
+    const {data}=await axiosSecure.delete(`plants/${id}`)
+    if(data.deletedCount>0){
+      toast.success("Plant Deleted")
+      refetch();
+    }
+  }
+
+
   return (
     <>
       <Helmet>
@@ -61,7 +90,9 @@ const MyInventory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <PlantDataRow />
+                  {
+                    plants.map((plant)=> <PlantDataRow  handleDelete={handleDelete} refetch={refetch} plant={plant} key={plant._id} />)
+                  }
                 </tbody>
               </table>
             </div>

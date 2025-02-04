@@ -12,9 +12,15 @@ import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../Form/CheckOutForm";
+const stripePromise=loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const PurchaseModal = ({ closeModal, isOpen, plant ,refetch}) => {
   // Total Price Calculation
+
+  
 
   const axiosSecure = useAxiosSecure();
   const navigate=useNavigate();
@@ -176,6 +182,14 @@ const PurchaseModal = ({ closeModal, isOpen, plant ,refetch}) => {
                     required
                   />
                 </div>
+
+                    {/* stripe form */}
+
+                    <Elements stripe={stripePromise}>
+                    {/* form component */}
+                    <CheckoutForm></CheckoutForm>
+                    </Elements>
+
 
                 <div className="mt-12">
                   <Button
