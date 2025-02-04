@@ -10,14 +10,14 @@
   color: #e4584c;
 }
 
+
+
+
 .result {
   color: #666ee8;
 }
 
-/* 
-The StripeElement class is applied to the Element container by default.
-More info: https://stripe.com/docs/stripe-js/reference#element-options
-*/
+
 
 .StripeElement,
 .StripeElementIdeal,
